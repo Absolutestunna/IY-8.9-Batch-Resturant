@@ -8,6 +8,14 @@ var RecipeList = React.createClass({displayName: "RecipeList",
     e.preventDefault()
     Backbone.history.navigate('finalRecipe', {trigger: 'true'});
   },
+  handleLogOut: function(e){
+    e.preventDefault();
+    Parse.User.logOut().then(() => {
+      var currentUser = Parse.User.current();  // this will now be null
+    });
+    Backbone.history.navigate('', {trigger: 'true'});
+
+  },
   render: function(){
     return (
       React.createElement("div", null, 
@@ -19,7 +27,11 @@ var RecipeList = React.createClass({displayName: "RecipeList",
                 React.createElement("div", {className: "nav-right"}, 
                   React.createElement("i", {onClick: this.handleAdd, className: "fa fa-plus fa-2x"}), 
                   React.createElement("i", {className: "fa fa-cog fa-2x"}), 
-                  React.createElement("i", {className: "fa fa-user fa-2x"})
+                  React.createElement("span", null, 
+                    React.createElement("i", {onClick: this.handleLogOut, className: "fa fa-user fa-2x"}), 
+                    React.createElement("p", {id: "logout"}, "Logout")
+                  )
+
                 )
               )
             )
@@ -38,7 +50,7 @@ var RecipeList = React.createClass({displayName: "RecipeList",
 });
 
 var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
-  
+
   render: function(){
     return (
       React.createElement("div", {className: "recipeList row"}, 

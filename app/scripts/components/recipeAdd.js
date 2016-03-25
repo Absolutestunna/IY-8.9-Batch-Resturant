@@ -4,6 +4,13 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 
 var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
+  handleReciepeList: function(){
+    Backbone.history.navigate('recipeList', {trigger: true});
+  },
+  handleLogOut: function(e){
+    e.preventDefault()
+    console.log("logout")
+  },
   render: function(){
     return (
       React.createElement("div", null, 
@@ -15,7 +22,7 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
                   React.createElement("div", {className: "nav-right"}, 
                     React.createElement("i", {onClick: this.handleAdd, className: "fa fa-plus fa-2x"}), 
                     React.createElement("i", {className: "fa fa-cog fa-2x"}), 
-                    React.createElement("i", {className: "fa fa-user fa-2x"})
+                    React.createElement("i", {onClick: this.handleLogOut, className: "fa fa-user fa-2x"})
                   )
                 )
               )
@@ -56,7 +63,7 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
               React.createElement("button", {className: "btn btn-secondary add"}, "Add another step")
             ), 
             React.createElement("div", {className: "save"}, 
-              React.createElement("button", {className: "btn btn-success"}, "Save the recipe")
+              React.createElement("button", {onClick: this.handleReciepeList, className: "btn btn-success"}, "Save the recipe")
             )
 
         )

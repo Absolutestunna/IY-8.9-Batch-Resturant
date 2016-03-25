@@ -5,6 +5,10 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 
 var RecipeListComponent = React.createClass({
+  handleReciepeList: function(){
+    Backbone.history.navigate('recipeList', {trigger: true});
+  },
+  
   render: function(){
     return (
       <div>
@@ -16,7 +20,7 @@ var RecipeListComponent = React.createClass({
                   <div className="nav-right">
                     <i onClick={this.handleAdd} className="fa fa-plus fa-2x"></i>
                     <i className="fa fa-cog fa-2x"></i>
-                    <i className="fa fa-user fa-2x"></i>
+                    <i onClick={this.handleLogOut} className="fa fa-user fa-2x"></i>
                   </div>
                 </div>
               </div>
@@ -57,7 +61,7 @@ var RecipeListComponent = React.createClass({
               <button className="btn btn-secondary add">Add another step</button>
             </div>
             <div className="save">
-              <button className="btn btn-success">Save the recipe</button>
+              <button onClick={this.handleReciepeList} className="btn btn-success">Save the recipe</button>
             </div>
 
         </div>
