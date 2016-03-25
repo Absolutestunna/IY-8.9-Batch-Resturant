@@ -5840,4 +5840,33 @@ img {
       width: 12%;
       display: inline-block; }
 
+.serving-info #amount {
+  width: 20%;
+  margin-right: 10px;
+  display: inline-block; }
+.serving-info #ingredient {
+  width: 38%;
+  margin-right: 10px;
+  display: inline-block; }
+.serving-info .units {
+  width: 25%;
+  margin-right: 10px;
+  display: inline-block; }
+.serving-info button {
+  width: 40px;
+  height: 33px; }
+.serving-info i {
+  margin: 0; }
+.serving-info .add {
+  width: 140px;
+  float: right;
+  font-size: 12px;
+  margin-top: 20px;
+  display: block; }
+
+.save button {
+  width: 75%;
+  margin-top: 20px;
+  margin-left: 55px; }
+
 /*# sourceMappingURL=app.css.map */
