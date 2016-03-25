@@ -1,0 +1,108 @@
+
+// Bootstrap Variables
+$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+
+// Import Bootstrap
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+.header {
+  text-align: center;
+}
+
+.nav {
+  background-color: lightgray;
+  height: 50px;
+  width: 100%;
+  h3 {
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .nav-right {
+    float: right;
+    margin-top: 10px;
+    i {
+      margin-right: 35px;
+      color: #9E9A9A;
+    }
+  }
+}
+
+.listItems {
+  margin-top: 40px;
+  .eachItem {
+    width: 60%;
+    height: 140px;
+    background-color: #5F5858;
+    border-radius: 3%;
+
+    i {
+      margin-left: 60px;
+      margin-top: 40px;
+    }
+    p {
+      margin-left: 33px;
+      margin-top: 10px;
+    }
+  }
+}
+.recipeInfo {
+    max-width: 40%;
+    border: 1px solid red;
+    margin: 0 auto;
+    margin-top: 30px;
+    .recipe-pic {
+      display: inline-block;
+      width: 140px;
+      height: 140px;
+      background-color: #5F5858;
+      border-radius: 3%;
+    }
+    i {
+      margin-left: 53px;
+      margin-top: 35px;
+    }
+    .recipe-info {
+      width: 60%;
+      display: inline-block;
+      float: right;
+    }
+    .recipe-ingredients{
+      margin-top: 10px;
+      .recipe-type {
+        width: 27%;
+        display: inline-block;
+        margin-right: 10px;
+
+      }
+      #prep-time {
+        width: 18%;
+        display: inline-block;
+        margin-right: 10px;
+      }
+      #cook-time {
+        width: 18%;
+        display: inline-block;
+        margin-right: 10px;
+
+      }
+      #cook-temp {
+        width: 18%;
+        display: inline-block;
+      }
+      .temperature {
+        width: 12%;
+        display: inline-block;
+      }
+    }
+}
