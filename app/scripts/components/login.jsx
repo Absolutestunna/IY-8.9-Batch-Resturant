@@ -95,7 +95,6 @@ var SignInComponent = React.createClass({
           <input onClick={this.props.handleSignIn} className="form-control btn btn-primary" type="submit"  value="Sign In" />
         </form>
         <div id="error"></div>
-
       </div>
     );
   }

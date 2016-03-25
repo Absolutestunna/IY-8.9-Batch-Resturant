@@ -94,7 +94,6 @@ var SignInComponent = React.createClass({displayName: "SignInComponent",
           React.createElement("input", {onClick: this.props.handleSignIn, className: "form-control btn btn-primary", type: "submit", value: "Sign In"})
         ), 
         React.createElement("div", {id: "error"})
-
       )
     );
   }
