@@ -9,7 +9,7 @@ var Backbone = require('backbone');
 // }
 
 Parse.initialize("tiygvl");
-Parse.serverURL = 'http://tiny-parse-server.herokuapp.com/';
+Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
 
 var LoginComponent = React.createClass({
   handleSignUp: function(e){
@@ -17,7 +17,6 @@ var LoginComponent = React.createClass({
     console.log("signup")
     var user = new Parse.User();
     user.set({'username': $('#username').val(), 'email': $('#email').val(), 'password': $('#password').val()});
-
     user.signUp(null, {
       'success': function(results){
         console.log("results: ", results);

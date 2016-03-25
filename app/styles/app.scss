@@ -106,3 +106,43 @@ img {
       }
     }
 }
+.serving-info {
+  #amount {
+    width: 20%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+  #ingredient {
+    width: 38%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+  .units {
+    width: 25%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+  button {
+    width: 40px;
+    height: 33px;
+  }
+  i {
+    margin: 0;
+  }
+  .add {
+    width: 140px;
+    float: right;
+    font-size: 12px;
+    margin-top: 20px;
+    display: block;
+
+  }
+}
+
+.save {
+  button {
+    width: 75%;
+    margin-top: 20px;
+    margin-left: 55px;
+  }
+}
