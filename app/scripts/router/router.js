@@ -6,13 +6,15 @@ var $ = require('jquery');
 var LoginPageComponent = require('./../components/login.jsx');
 var RecipeAddComponent = require('./../components/recipeAdd.jsx');
 var RecipeListComponent = require('./../components/recipeList.jsx');
+var FinalDisplay = require('./../components/recipeInformation.jsx');
 
 
 var Router = Backbone.Router.extend({
   routes: {
     '': 'login',
     'recipeList': 'recipeList',
-    'finalRecipe': 'finalRecipe'
+    'finalRecipe': 'finalRecipe',
+    'finalDisplay': 'finalDisplay'
   },
   login: function(){
     ReactDOM.render(
@@ -27,6 +29,11 @@ var Router = Backbone.Router.extend({
   finalRecipe: function(){
     ReactDOM.render(
       React.createElement(RecipeAddComponent), document.getElementById('app')
+    );
+  },
+  finalDisplay: function(){
+    ReactDOM.render(
+      React.createElement(FinalDisplay), document.getElementById('app')
     );
   }
 });
