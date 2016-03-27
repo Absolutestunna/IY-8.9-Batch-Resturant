@@ -2,15 +2,75 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 var Parse = require('parse');
 var Backbone = require('backbone');
+require('react-dom');
+
+//    {/*Backbone.history.navigate('recipeList', {trigger: true});*/}
+// var query = new Parse.Query(RecipeInfo);
+// query.equalTo("chef", username);
+// query.find({
+//   success: function(results) {
+//     console.log("Successfully retrieved " + results.length + " recipies.")
+//     for (var i = 0; i < results.length; i++) {
+//       var object = results[i];
+//       console.log(object.id + ' - ' + object.get('ingredient_author'));
+// }
+//   },
+//   error: function(error) {
+//     console.log("Error: " + error.code + " " + error.message);
+//   }
+// });
 
 var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
+  getInitialState: function(){
+    return {
+      items: [],
+      ingredients: ""
+    }
+  },
+  handleIngredientCapture: function(number, name, ingredientUnit, e){
+    var itemsConcat = this.state.items.concat([
+      {'id': Date.now(), ingredients: number + " " + name + " " + ingredientUnit }
+    ])
+    this.setState({items: itemsConcat, ingredients: ""});
+  },
   handleReciepeList: function(){
-    Backbone.history.navigate('recipeList', {trigger: true});
+    console.log(this.state.items)
+
+    var ingredient_name = $('#recipe-name').val();
+    var ingredient_author = $('#baker-name').val();
+    var mealTimes = $('.recipe-type option:selected').text();
+    var prepTime = $('#prep-time').val();
+    var cookTime = $('#cook-time').val();
+    var cookTemp = $('#cook-temp').val();
+    var tempUnit = $('.temperature option:selected').text();
+    var username = Parse.User.current();
+
+    var RecipeInfo = Parse.Object.extend("Recipies");
+    var info= new RecipeInfo();
+
+    var basic_info = {
+      'chef': username,
+      'cook': ingredient_author,
+      'name': ingredient_name,
+      'ingredient_author': ingredient_author,
+      'mealTimes': mealTimes,
+      'prepTime': prepTime,
+      'cookTime': cookTime,
+      'cookTemp': cookTemp,
+      'tempUnit': tempUnit
+    };
+    info.set(basic_info);
+    info.save(null, {
+      success: function(info) {
+        console.log('New object created with objectId: ' + info.id);
+      },
+      error: function(info, error) {
+        console.log('Failed to create new object, with error code: ' + error.message);
+        }
+    });
+
   },
-  handleLogOut: function(e){
-    e.preventDefault()
-    console.log("logout")
-  },
+
   render: function(){
     return (
       React.createElement("div", null, 
@@ -54,14 +114,13 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
                 React.createElement("option", null, "C"), 
                 React.createElement("option", null, "F")
               )
-
             ), 
 
-            React.createElement("div", {className: "serving-info"}, 
-              React.createElement(ServingIngredients, null), 
-              React.createElement("textarea", {rows: "6", className: "form-control", placeholder: "What directions go with this step?"}), 
-              React.createElement("button", {className: "btn btn-secondary add"}, "Add another step")
-            ), 
+            React.createElement(RecipeStepsComponent, {
+              items: this.state.items, 
+              handleIngredientCapture: this.handleIngredientCapture}
+              ), 
+
             React.createElement("div", {className: "save"}, 
               React.createElement("button", {onClick: this.handleReciepeList, className: "btn btn-success"}, "Save the recipe")
             )
@@ -73,20 +132,45 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
     );
   }
 });
+var RecipeStepsComponent = React.createClass({displayName: "RecipeStepsComponent",
 
-var ServingIngredients = React.createClass({displayName: "ServingIngredients",
   render: function(){
     return (
       React.createElement("div", null, 
-          React.createElement("form", {className: "form-group"}, 
-            React.createElement("input", {name: "text", className: "form-control", id: "amount", type: "number", placeholder: "Amount"}), 
+        React.createElement("div", {className: "serving-info"}, 
+
+          React.createElement(ServingIngredients, {
+            items: this.props.items, 
+            handleIngredientCapture: this.props.handleIngredientCapture}
+            ), 
+          React.createElement("textarea", {id: "directions-step", rows: "6", className: "form-control", placeholder: "What directions go with this step?"}), 
+          React.createElement("button", {className: "btn btn-secondary add"}, "Add another step")
+        )
+      )
+    );
+  }
+});
+
+var ServingIngredients = React.createClass({displayName: "ServingIngredients",
+  onCapture: function(e){
+    e.preventDefault();
+    var amountNumber = ReactDOM.findDOMNode(this.refs.amount).value;
+    var ingredient = ReactDOM.findDOMNode(this.refs.ingredient).value;
+    var unit = $('.units option:selected').text();
+    this.props.handleIngredientCapture(amountNumber, unit, ingredient)
+  },
+  render: function(){
+    return (
+      React.createElement("div", null, 
+          React.createElement("form", {className: "form-group", id: "individualIngredient"}, 
+            React.createElement("input", {ref: "amount", name: "text", className: "form-control", id: "amount", type: "number", placeholder: "Amount"}), 
               React.createElement("select", {className: "form-control selectpicker units"}, 
                 React.createElement("option", null, "cup(s)"), 
-                React.createElement("option", null, "lb"), 
-                React.createElement("option", null, "Tb")
+                React.createElement("option", null, "oz"), 
+                React.createElement("option", null, "tb(s)")
               ), 
-            React.createElement("input", {name: "text", className: "form-control", id: "ingredient", type: "text", placeholder: "Ingredient"}), 
-            React.createElement("button", {className: "btn btn-default", id: ""}, React.createElement("i", {className: "fa fa-plus fa-2x"}))
+            React.createElement("input", {ref: "ingredient", name: "text", className: "form-control", id: "ingredient", type: "text", placeholder: "Ingredient"}), 
+            React.createElement("button", {onClick: this.onCapture, className: "btn btn-default", id: "addIngredient"}, React.createElement("i", {className: "fa fa-plus fa-2x"}))
         )
     )
     );
