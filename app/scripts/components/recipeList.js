@@ -4,6 +4,11 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 
 var RecipeList = React.createClass({displayName: "RecipeList",
+  handleFinalPageActivate: function(e){
+    e.preventDefault();
+    Backbone.history.navigate('finalDisplay', {trigger: 'true'});
+
+  },
   handleAdd: function(e){
     e.preventDefault()
     Backbone.history.navigate('finalRecipe', {trigger: 'true'});
@@ -27,9 +32,11 @@ var RecipeList = React.createClass({displayName: "RecipeList",
                 React.createElement("div", {className: "nav-right"}, 
                   React.createElement("i", {onClick: this.handleAdd, className: "fa fa-plus fa-2x"}), 
                   React.createElement("i", {className: "fa fa-cog fa-2x"}), 
-                  React.createElement("span", null, 
-                    React.createElement("i", {onClick: this.handleLogOut, className: "fa fa-user fa-2x"}), 
-                    React.createElement("p", {id: "logout"}, "Logout")
+                  React.createElement("span", {className: "dropdown"}, 
+                    React.createElement("i", {className: "fa fa-user fa-2x"}), 
+                    React.createElement("div", {className: "dropdown-content"}, 
+                      React.createElement("p", {onClick: this.handleLogOut, id: "logout"}, "Logout")
+                    )
                   )
 
                 )
@@ -40,7 +47,10 @@ var RecipeList = React.createClass({displayName: "RecipeList",
         React.createElement("div", {className: "container"}, 
           React.createElement("div", {className: "row"}, 
             React.createElement("div", {className: "col-md-12 listItems ", id: "main-Page"}, 
-              React.createElement(RecipeListComponent, {handleAdd: this.handleAdd})
+              React.createElement(RecipeListComponent, {
+                handleFinalPageActivate: this.handleFinalPageActivate, 
+                handleAdd: this.handleAdd}
+                )
             )
           )
         )
@@ -57,7 +67,8 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
         React.createElement(NewRecipeButtonComponent, {handleAdd: this.props.handleAdd}), 
         React.createElement(NewRecipeButtonComponent, {handleAdd: this.props.handleAdd}), 
         React.createElement(NewRecipeButtonComponent, {handleAdd: this.props.handleAdd}), 
-        React.createElement(NewRecipeButtonComponent, {handleAdd: this.props.handleAdd})
+        React.createElement(NewRecipeButtonComponent, {handleAdd: this.props.handleAdd}), 
+        React.createElement("button", {onClick: this.props.handleFinalPageActivate, className: "btn btn-default finalPage"}, "+")
       )
     );
   }

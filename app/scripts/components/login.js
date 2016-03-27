@@ -4,9 +4,11 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 require('backbone-react-component');
 
+$(function(){
+  Parse.initialize("tiy-gvl");
+  Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
+});
 
-Parse.initialize("tiy-gvl");
-Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
 
 var LoginComponent = React.createClass({displayName: "LoginComponent",
   mixins: [Backbone.React.Component.mixin],
@@ -18,7 +20,7 @@ var LoginComponent = React.createClass({displayName: "LoginComponent",
     user.signUp(null, {
       'success': function(results){
         console.log("results: ", results);
-        Backbone.history.navigate("home", {trigger: true});
+        Backbone.history.navigate("recipeList", {trigger: true});
       },
       'error': function(user, error){
         $('.error').html('<p>' + "* " + error.message + '</p>');

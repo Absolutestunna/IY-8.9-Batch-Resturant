@@ -5,6 +5,11 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 
 var RecipeList = React.createClass({
+  handleFinalPageActivate: function(e){
+    e.preventDefault();
+    Backbone.history.navigate('finalDisplay', {trigger: 'true'});
+
+  },
   handleAdd: function(e){
     e.preventDefault()
     Backbone.history.navigate('finalRecipe', {trigger: 'true'});
@@ -28,9 +33,11 @@ var RecipeList = React.createClass({
                 <div className="nav-right">
                   <i onClick={this.handleAdd} className="fa fa-plus fa-2x"></i>
                   <i className="fa fa-cog fa-2x"></i>
-                  <span>
-                    <i onClick={this.handleLogOut} className="fa fa-user fa-2x"></i>
-                    <p id='logout'>Logout</p>
+                  <span className="dropdown">
+                    <i className="fa fa-user fa-2x"></i>
+                    <div className="dropdown-content">
+                      <p onClick={this.handleLogOut} id='logout'>Logout</p>
+                    </div>
                   </span>
 
                 </div>
@@ -41,7 +48,10 @@ var RecipeList = React.createClass({
         <div className="container">
           <div className="row">
             <div className="col-md-12 listItems " id='main-Page'>
-              <RecipeListComponent handleAdd={this.handleAdd} />
+              <RecipeListComponent
+                handleFinalPageActivate={this.handleFinalPageActivate}
+                handleAdd={this.handleAdd}
+                />
             </div>
           </div>
         </div>
@@ -59,6 +69,7 @@ var RecipeListComponent = React.createClass({
         <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
         <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
         <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
+        <button onClick={this.props.handleFinalPageActivate} className="btn btn-default finalPage">+</button>
       </div>
     );
   }

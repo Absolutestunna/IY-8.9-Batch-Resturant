@@ -33,6 +33,14 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
     ])
     this.setState({items: itemsConcat, ingredients: ""});
   },
+  handleLogOut: function(e){
+    e.preventDefault();
+    Parse.User.logOut().then(() => {
+      var currentUser = Parse.User.current();  // this will now be null
+    });
+    Backbone.history.navigate('', {trigger: 'true'});
+
+  },
   handleReciepeList: function(){
     console.log(this.state.items)
 
@@ -46,7 +54,7 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
     var username = Parse.User.current();
 
     var RecipeInfo = Parse.Object.extend("Recipies");
-    var info= new RecipeInfo();
+    var info = new RecipeInfo();
 
     var basic_info = {
       'chef': username,
@@ -57,7 +65,8 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
       'prepTime': prepTime,
       'cookTime': cookTime,
       'cookTemp': cookTemp,
-      'tempUnit': tempUnit
+      'tempUnit': tempUnit,
+      'ingredients': this.state.items
     };
     info.set(basic_info);
     info.save(null, {
@@ -82,7 +91,13 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
                   React.createElement("div", {className: "nav-right"}, 
                     React.createElement("i", {onClick: this.handleAdd, className: "fa fa-plus fa-2x"}), 
                     React.createElement("i", {className: "fa fa-cog fa-2x"}), 
-                    React.createElement("i", {onClick: this.handleLogOut, className: "fa fa-user fa-2x"})
+                      React.createElement("span", {className: "dropdown"}, 
+                        React.createElement("i", {className: "fa fa-user fa-2x"}), 
+                        React.createElement("div", {className: "dropdown-content"}, 
+                          React.createElement("p", {onClick: this.handleLogOut, id: "logout"}, "Logout")
+                        )
+                      )
+
                   )
                 )
               )
@@ -103,7 +118,6 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
                 React.createElement("option", null, "Lunch"), 
                 React.createElement("option", null, "Dinner"), 
                 React.createElement("option", null, "Dessert")
-
               ), 
 
               React.createElement("input", {name: "text", className: "form-control", id: "prep-time", type: "text", placeholder: "Prep Time"}), 
@@ -143,8 +157,7 @@ var RecipeStepsComponent = React.createClass({displayName: "RecipeStepsComponent
             items: this.props.items, 
             handleIngredientCapture: this.props.handleIngredientCapture}
             ), 
-          React.createElement("textarea", {id: "directions-step", rows: "6", className: "form-control", placeholder: "What directions go with this step?"}), 
-          React.createElement("button", {className: "btn btn-secondary add"}, "Add another step")
+          React.createElement("textarea", {id: "directions-step", rows: "6", className: "form-control", placeholder: "What are the directions for this awesome recipe?"})
         )
       )
     );
@@ -157,7 +170,16 @@ var ServingIngredients = React.createClass({displayName: "ServingIngredients",
     var amountNumber = ReactDOM.findDOMNode(this.refs.amount).value;
     var ingredient = ReactDOM.findDOMNode(this.refs.ingredient).value;
     var unit = $('.units option:selected').text();
-    this.props.handleIngredientCapture(amountNumber, unit, ingredient)
+    if (amountNumber == ""){
+      alert('please provide an ingredient amount')
+    } else if (ingredient == ""){
+      alert('please provide an ingredient item')
+    } else {
+      $('#individualIngredient').append('<div class="ingredientItems"><ul><li>' + amountNumber + " " + unit + " " + ingredient + '</li></ul></div>');
+      this.props.handleIngredientCapture(amountNumber, unit, ingredient)
+      ReactDOM.findDOMNode(this.refs.amount).value = '';
+      ReactDOM.findDOMNode(this.refs.ingredient).value = '';
+    }
   },
   render: function(){
     return (
