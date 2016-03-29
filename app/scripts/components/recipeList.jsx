@@ -33,7 +33,7 @@ var RecipeList = React.createClass({
           var object = results[i];
           var recipeName = object.toJSON().name;
           var recipeCook = object.toJSON().cook;
-
+          console.log(recipeCook, recipeName)
         }
       }
   });
