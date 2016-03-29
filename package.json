@@ -23,12 +23,14 @@
     "underscore": "^1.8.3"
     , "bootstrap-sass": "^3.3.6"
     , "backbone": "^1.3.1"
-    
+
     , "react": "^0.14.7"
     , "react-dom": "^0.14.7"
     , "reactify": "^1.1.1"
     , "react-bootstrap": "^0.28.3"
     , "backbone-react-component": "^0.10.0"
+    , "parse": "1.6.14"
+    , "parse-react": "0.5.1"
   },
   "scripts": {
     "html": "cp app/*.html dist/",
@@ -60,7 +62,7 @@
   "browserify": {
     "transform": [
       "browserify-shim",
-      
+
       "reactify",
       "strictify"
     ]

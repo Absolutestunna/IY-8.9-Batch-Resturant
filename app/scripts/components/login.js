@@ -16,7 +16,7 @@ var LoginComponent = React.createClass({displayName: "LoginComponent",
     e.preventDefault();
     console.log("signup")
     var user = new Parse.User();
-    user.set({'username': $('#username').val(), 'email': $('#email').val(), 'password': $('#password').val()});
+    user.set({'username': $ ('#username').val(), 'email': $('#email').val(), 'password': $('#password').val()});
     user.signUp(null, {
       'success': function(results){
         console.log("results: ", results);
@@ -32,7 +32,6 @@ var LoginComponent = React.createClass({displayName: "LoginComponent",
     e.preventDefault();
     var username = $('#username1').val();
     var password = $('#password1').val();
-    console.log(username, password)
     Parse.User.logIn(username, password, {
       success: function(user) {
         console.log(user);

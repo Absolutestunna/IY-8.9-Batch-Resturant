@@ -6,8 +6,29 @@ var Backbone = require('backbone');
 require('react-dom');
 
 
-// var query = new Parse.Query(RecipeInfo);
-// query.equalTo("chef", username);
+
+// $(function(){
+//   Parse.initialize("tiy-gvl");
+//   Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
+// });
+//
+// var Recipies = Parse.Object.extend("Recipies");
+// var query = new Parse.Query(Recipies);
+// query.get("cookies", {
+//   success: function(item) {
+//     console.log(item);
+//     // The object was retrieved successfully.
+//   },
+//   error: function(object, error) {
+//     console.log(object, 'The object was not retrieved successfully.');
+//     console.log(error);
+//     // The object was not retrieved successfully.
+//     // error is a Parse.Error with an error code and message.
+//   }
+// });
+
+// var query = new Parse.Query(Recipies);
+// query.equalTo("ingredients", username);
 // query.find({
 //   success: function(results) {
 //     console.log("Successfully retrieved " + results.length + " recipies.")
@@ -53,7 +74,6 @@ var FinalDisplay = React.createClass({
               </div>
             </div>
           </div>
-
         </div>
     );
   }
