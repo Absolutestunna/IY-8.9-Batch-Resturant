@@ -17,21 +17,28 @@ var Router = Backbone.Router.extend({
     'finalDisplay': 'finalDisplay'
   },
   login: function(){
+    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
+
     ReactDOM.render(
       React.createElement(LoginPageComponent), document.getElementById('app')
     );
   },
   recipeList: function(){
+    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
     ReactDOM.render(
       React.createElement(RecipeListComponent), document.getElementById('app')
     );
   },
   finalRecipe: function(){
+    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
+
     ReactDOM.render(
       React.createElement(RecipeAddComponent), document.getElementById('app')
     );
   },
   finalDisplay: function(){
+    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
+
     ReactDOM.render(
       React.createElement(FinalDisplay), document.getElementById('app')
     );

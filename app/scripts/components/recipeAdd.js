@@ -19,16 +19,25 @@ require('react-dom');
 //   }
 // });
 
+
+
 var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
   getInitialState: function(){
     return {
       items: [],
-      ingredients: ""
+      'number': 0,
+      'name': '',
+      'ingredientUnit': ''
     }
   },
-  handleIngredientCapture: function(number, name, ingredientUnit, e){
+  handleIngredientCapture: function(number, name, ingredientUnit){
     var itemsConcat = this.state.items.concat([
-      {'id': Date.now(), ingredients: number + " " + name + " " + ingredientUnit }
+      {
+        'id': Date.now(),
+        'number': number,
+        'name':name,
+        'ingredientUnit': ingredientUnit
+      }
     ])
     this.setState({items: itemsConcat, ingredients: ""});
   },
@@ -53,42 +62,48 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
     var recipeID;
 
     var RecipeInfo = Parse.Object.extend("Recipies");
+
+    var items = this.state.items;
     var info = new RecipeInfo();
 
     var basic_info = {
       'cook_id': username,
       'cook': ingredient_author,
-      'name': ingredient_name
+      'name': ingredient_name,
+      'mealTimes': mealTimes,
+      'prepTime': prepTime,
+      'cookTime': cookTime,
+      'cookTemp': cookTemp,
+      'tempUnit': tempUnit,
+      'directions': directions,
     };
     info.set(basic_info);
-    var items = this.state.items;
     info.save(null, {
       success: function(info) {
         console.log('New object created with objectId: ' + info.id);
         recipeID = info.id;
-        var RecipeIngredients = Parse.Object.extend("Ingredients");
-        var ingredients = new RecipeIngredients();
-        var recipe_info = {
-          'mealTimes': mealTimes,
-          'prepTime': prepTime,
-          'cookTime': cookTime,
-          'cookTemp': cookTemp,
-          'tempUnit': tempUnit,
-          'ingredients': items,
-          'directions': directions,
-          'recipe': info
-        };
-        ingredients.set(recipe_info);
 
-        ingredients.save(null, {
-          success: function(info) {
-            console.log('New object created with objectId: ' + info.id);
+        for (var i=0; i<items.length; i++){
+          var RecipeIngredients = Parse.Object.extend("Ingredients");
+          var ingredients = new RecipeIngredients();
+          var recipe_info = {
+            'recipe': info,
+            'number': items[i].number,
+            'name': items[i].name,
+            'unit': items[i].ingredientUnit
+          };
+          ingredients.set(recipe_info);
+          ingredients.save(null, {
+            success: function(info) {
+              console.log('New object created with objectId: ' + info.id);
 
-          },
-          error: function(info, error) {
-            console.log('Failed to create new object, with error code: ' + error.message);
-            }
-        });
+            },
+            error: function(info, error) {
+              console.log('Failed to create new object, with error code: ' + error.message);
+              }
+          });
+        }
+
 
       },
       error: function(info, error) {
@@ -170,9 +185,11 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
 var RecipeStepsComponent = React.createClass({displayName: "RecipeStepsComponent",
 
   render: function(){
+
     return (
       React.createElement("div", null, 
         React.createElement("div", {className: "serving-info"}, 
+
 
           React.createElement(ServingIngredients, {
             items: this.props.items, 
@@ -192,9 +209,11 @@ var ServingIngredients = React.createClass({displayName: "ServingIngredients",
     var ingredient = ReactDOM.findDOMNode(this.refs.ingredient).value;
     var unit = $('.units option:selected').text();
     if (amountNumber == ""){
-      alert('please provide an ingredient amount')
+      alert('please provide an ingredient amount');
     } else if (ingredient == ""){
-      alert('please provide an ingredient item')
+      alert('please provide an ingredient item');
+    } else if (amountNumber < 0){
+      alert('please make sure the amount is greater than 0');
     } else {
       $('#individualIngredient').append('<div class="ingredientItems"><ul><li>' + amountNumber + " " + unit + " " + ingredient + '</li></ul></div>');
       this.props.handleIngredientCapture(amountNumber, unit, ingredient)
