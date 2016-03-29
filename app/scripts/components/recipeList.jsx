@@ -4,10 +4,39 @@ var $ = require('jquery');
 var Parse = require('parse');
 var Backbone = require('backbone');
 
+
+//  Parse.User.current().fetch().done(function(user){
+  //   console.log(user)
+  // })
+// var recipeAdd = require('./recipeAdd.jsx');
+// console.log(recipeID)
+// Backbone.history.navigate('finalDisplay', {trigger: 'true'});
+// for (var i = 0; i < results.length; i++) {
+//   var object = results[i];
+//   alert(object.id + ' - ' + object.get('playerName'));
+// }
+$(function(){
+  Parse.initialize("tiy-gvl");
+  Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
+});
 var RecipeList = React.createClass({
   handleFinalPageActivate: function(e){
     e.preventDefault();
-    Backbone.history.navigate('finalDisplay', {trigger: 'true'});
+    var Recipies = Parse.Object.extend("Recipies");
+    var query = new Parse.Query(Recipies);
+
+
+    query.select("cook", "name")
+    query.find({
+      success: function(results) {
+        for (var i = 0; i < results.length; i++) {
+          var object = results[i];
+          var recipeName = object.toJSON().name;
+          var recipeCook = object.toJSON().cook;
+
+        }
+      }
+  });
 
   },
   handleAdd: function(e){
@@ -48,10 +77,17 @@ var RecipeList = React.createClass({
         <div className="container">
           <div className="row">
             <div className="col-md-12 listItems " id='main-Page'>
-              <RecipeListComponent
+              <NewRecipeButtonComponent
                 handleFinalPageActivate={this.handleFinalPageActivate}
                 handleAdd={this.handleAdd}
                 />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+
+              <RecipeListComponent />
+
             </div>
           </div>
         </div>
@@ -60,28 +96,32 @@ var RecipeList = React.createClass({
   }
 });
 
-var RecipeListComponent = React.createClass({
-
-  render: function(){
-    return (
-      <div className="recipeList row">
-        <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
-        <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
-        <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
-        <NewRecipeButtonComponent handleAdd={this.props.handleAdd} />
-        <button onClick={this.props.handleFinalPageActivate} className="btn btn-default finalPage">+</button>
-      </div>
-    );
-  }
-});
 
 var NewRecipeButtonComponent = React.createClass({
   render: function(){
     return (
-      <div className="col-md-3">
-        <div onClick={this.props.handleAdd} className="eachItem">
-          <i className="fa fa-plus fa-3x"></i>
-          <p>Add to Order</p>
+      <div className="recipeList row">
+
+        <div className="col-md-3">
+          <div onClick={this.props.handleAdd} className="eachItem">
+            <i className="fa fa-plus fa-3x"></i>
+            <p>Add to Order</p>
+          </div>
+        </div>
+        <button onClick={this.props.handleFinalPageActivate} className="btn btn-default finalPage">+</button>
+
+    </div>
+
+    );
+  }
+});
+
+var RecipeListComponent = React.createClass({
+  render: function(){
+    return (
+      <div className="row">
+        <div className="col-md-3 myList">
+
         </div>
       </div>
     );

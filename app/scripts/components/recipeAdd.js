@@ -4,7 +4,6 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 require('react-dom');
 
-//    {/*Backbone.history.navigate('recipeList', {trigger: true});*/}
 // var query = new Parse.Query(RecipeInfo);
 // query.equalTo("chef", username);
 // query.find({
@@ -42,8 +41,6 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
 
   },
   handleReciepeList: function(){
-    console.log(this.state.items)
-
     var ingredient_name = $('#recipe-name').val();
     var ingredient_author = $('#baker-name').val();
     var mealTimes = $('.recipe-type option:selected').text();
@@ -52,31 +49,55 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
     var cookTemp = $('#cook-temp').val();
     var tempUnit = $('.temperature option:selected').text();
     var username = Parse.User.current();
+    var directions = $('#directions-step').val();
+    var recipeID;
 
     var RecipeInfo = Parse.Object.extend("Recipies");
     var info = new RecipeInfo();
 
     var basic_info = {
-      'chef': username,
+      'cook_id': username,
       'cook': ingredient_author,
-      'name': ingredient_name,
-      'ingredient_author': ingredient_author,
-      'mealTimes': mealTimes,
-      'prepTime': prepTime,
-      'cookTime': cookTime,
-      'cookTemp': cookTemp,
-      'tempUnit': tempUnit,
-      'ingredients': this.state.items
+      'name': ingredient_name
     };
     info.set(basic_info);
+    var items = this.state.items;
     info.save(null, {
       success: function(info) {
         console.log('New object created with objectId: ' + info.id);
+        recipeID = info.id;
+        var RecipeIngredients = Parse.Object.extend("Ingredients");
+        var ingredients = new RecipeIngredients();
+        var recipe_info = {
+          'mealTimes': mealTimes,
+          'prepTime': prepTime,
+          'cookTime': cookTime,
+          'cookTemp': cookTemp,
+          'tempUnit': tempUnit,
+          'ingredients': items,
+          'directions': directions,
+          'recipe': info
+        };
+        ingredients.set(recipe_info);
+
+        ingredients.save(null, {
+          success: function(info) {
+            console.log('New object created with objectId: ' + info.id);
+
+          },
+          error: function(info, error) {
+            console.log('Failed to create new object, with error code: ' + error.message);
+            }
+        });
+
       },
       error: function(info, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
         }
     });
+
+
+  Backbone.history.navigate('recipeList', {trigger: true});
 
   },
 
@@ -186,7 +207,7 @@ var ServingIngredients = React.createClass({displayName: "ServingIngredients",
       React.createElement("div", null, 
           React.createElement("form", {className: "form-group", id: "individualIngredient"}, 
             React.createElement("input", {ref: "amount", name: "text", className: "form-control", id: "amount", type: "number", placeholder: "Amount"}), 
-              React.createElement("select", {className: "form-control selectpicker units"}, 
+              React.createElement("select", {className: "form-control units"}, 
                 React.createElement("option", null, "cup(s)"), 
                 React.createElement("option", null, "oz"), 
                 React.createElement("option", null, "tb(s)")
