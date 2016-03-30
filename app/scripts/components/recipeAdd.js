@@ -4,21 +4,6 @@ var Parse = require('parse');
 var Backbone = require('backbone');
 require('react-dom');
 
-// var query = new Parse.Query(RecipeInfo);
-// query.equalTo("chef", username);
-// query.find({
-//   success: function(results) {
-//     console.log("Successfully retrieved " + results.length + " recipies.")
-//     for (var i = 0; i < results.length; i++) {
-//       var object = results[i];
-//       console.log(object.id + ' - ' + object.get('ingredient_author'));
-// }
-//   },
-//   error: function(error) {
-//     console.log("Error: " + error.code + " " + error.message);
-//   }
-// });
-
 
 
 var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
@@ -103,19 +88,13 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
               }
           });
         }
-
-
       },
       error: function(info, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
         }
     });
-
-
   Backbone.history.navigate('recipeList', {trigger: true});
-
   },
-
   render: function(){
     return (
       React.createElement("div", null, 
@@ -189,8 +168,6 @@ var RecipeStepsComponent = React.createClass({displayName: "RecipeStepsComponent
     return (
       React.createElement("div", null, 
         React.createElement("div", {className: "serving-info"}, 
-
-
           React.createElement(ServingIngredients, {
             items: this.props.items, 
             handleIngredientCapture: this.props.handleIngredientCapture}

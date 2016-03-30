@@ -57,11 +57,18 @@ var RecipeList = React.createClass({
               <div className="nav">
                 <h3>MAD CITY RECIPIES</h3>
                 <div className="nav-right">
-                  <i onClick={this.handleAdd} className="fa fa-plus fa-2x"></i>
+
+                <span onClick={this.handleAdd}className="dropdown">
+                  <i  className="fa fa-plus fa-2x"></i>
+                  <div className="dropdown-content" >
+                    <p  id='add-recipe'>Add Recipe</p>
+                  </div>
+                </span>
+
                   <i className="fa fa-cog fa-2x"></i>
                   <span className="dropdown">
                     <i className="fa fa-user fa-2x"></i>
-                    <div className="dropdown-content">
+                    <div className="dropdown-content" >
                       <p onClick={this.handleLogOut} id='logout'>Logout</p>
                     </div>
                   </span>
@@ -98,7 +105,7 @@ var RecipeListComponent = React.createClass({
   render: function(){
     var eachItem = this.data.recipes.map(function(data){
       return (
-          <div key={data.objectId} className="col-lg-3" id="each">
+          <div key={data.objectId} className="col-xs-12 col-md-3" id="each">
             <h3>{data.name}</h3>
             <p>{data.cook}</p>
          </div>

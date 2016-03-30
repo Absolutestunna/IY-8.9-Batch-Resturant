@@ -170,6 +170,8 @@ img {
 
 .dropdown:hover .dropdown-content {
     display: block;
+    cursor:default;
+    color: red;
 }
 .myList{
   margin-top: 20px;
