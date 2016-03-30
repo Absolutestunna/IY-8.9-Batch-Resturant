@@ -56,7 +56,14 @@ var RecipeList = React.createClass({displayName: "RecipeList",
               React.createElement("div", {className: "nav"}, 
                 React.createElement("h3", null, "MAD CITY RECIPIES"), 
                 React.createElement("div", {className: "nav-right"}, 
-                  React.createElement("i", {onClick: this.handleAdd, className: "fa fa-plus fa-2x"}), 
+
+                React.createElement("span", {onClick: this.handleAdd, className: "dropdown"}, 
+                  React.createElement("i", {className: "fa fa-plus fa-2x"}), 
+                  React.createElement("div", {className: "dropdown-content"}, 
+                    React.createElement("p", {id: "add-recipe"}, "Add Recipe")
+                  )
+                ), 
+
                   React.createElement("i", {className: "fa fa-cog fa-2x"}), 
                   React.createElement("span", {className: "dropdown"}, 
                     React.createElement("i", {className: "fa fa-user fa-2x"}), 
@@ -97,7 +104,7 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
   render: function(){
     var eachItem = this.data.recipes.map(function(data){
       return (
-          React.createElement("div", {key: data.objectId, className: "col-lg-3", id: "each"}, 
+          React.createElement("div", {key: data.objectId, className: "col-xs-12 col-md-3", id: "each"}, 
             React.createElement("h3", null, data.name), 
             React.createElement("p", null, data.cook)
          )
