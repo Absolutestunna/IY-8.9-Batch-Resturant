@@ -6,20 +6,12 @@ var Backbone = require('backbone');
 var ParseReact = require('parse-react');
 require('react-dom');
 
+// localStorage.setItem('user', {
+//   name: data.name,
+//   cook: data.cook,
+//   id: data.objectId
+// })
 
-
-
-
-//  Parse.User.current().fetch().done(function(user){
-  //   console.log(user)
-  // })
-// var recipeAdd = require('./recipeAdd.jsx');
-// console.log(recipeID)
-// Backbone.history.navigate('finalDisplay', {trigger: 'true'});
-// for (var i = 0; i < results.length; i++) {
-//   var object = results[i];
-//   alert(object.id + ' - ' + object.get('playerName'));
-// }
 $(function(){
   Parse.initialize("tiy-gvl");
   Parse.serverURL = 'http://batch-cookies.herokuapp.com/';
@@ -34,6 +26,9 @@ var RecipeList = React.createClass({
   },
   handleFinalPageActivate: function(e){
     e.preventDefault();
+    localStorage.setItem('id', e.currentTarget.id)
+    Backbone.history.navigate('finalDisplay', {trigger: 'true'});
+
 
   },
   handleAdd: function(e){
@@ -82,7 +77,7 @@ var RecipeList = React.createClass({
           <div className="row">
             <div className="col-md-12">
 
-              <RecipeListComponent />
+              <RecipeListComponent handleFinalPageActivate={this.handleFinalPageActivate}/>
 
             </div>
           </div>
@@ -105,12 +100,13 @@ var RecipeListComponent = React.createClass({
   render: function(){
     var eachItem = this.data.recipes.map(function(data){
       return (
-          <div key={data.objectId} className="col-xs-12 col-md-3" id="each">
-            <h3>{data.name}</h3>
+          <div key={data.objectId} onClick={this.props.handleFinalPageActivate} id={data.objectId} className="col-xs-12 col-md-3 each" >
+            <h2>{data.name}</h2><br />
             <p>{data.cook}</p>
          </div>
+
         );
-    });
+    }.bind(this));
     return (
       <div className="row">
         <div className="col-md-12 myList">
