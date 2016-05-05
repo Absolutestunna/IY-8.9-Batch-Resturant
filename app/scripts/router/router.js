@@ -37,7 +37,7 @@ var Router = Backbone.Router.extend({
     );
   },
   finalDisplay: function(){
-    ReactDOM.unmountComponentAtNode(document.getElementById('app'));
+
 
     ReactDOM.render(
       React.createElement(FinalDisplay), document.getElementById('app')

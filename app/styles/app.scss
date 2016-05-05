@@ -175,12 +175,17 @@ img {
 }
 .myList{
   margin-top: 20px;
-  #each {
+  .each {
     background-color: #E91E63;
     border-radius: 3%;
     height: 90px;
     margin: 5px;
-
+    h2 {
+      display: inline-block;
+    }
+    p {
+      display: inline-block;
+    }
   }
 }
 
