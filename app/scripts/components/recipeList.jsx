@@ -99,6 +99,7 @@ var RecipeListComponent = React.createClass({
   },
   render: function(){
     var eachItem = this.data.recipes.map(function(data){
+  
       return (
           <div key={data.objectId} onClick={this.props.handleFinalPageActivate} id={data.objectId} className="col-xs-12 col-md-3 each" >
             <h2>{data.name}</h2><br />

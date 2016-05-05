@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 var Parse = require('parse');
 var Backbone = require('backbone');
+var ParseReact = require('parse-react');
 require('react-dom');
 
 
@@ -46,13 +47,29 @@ require('react-dom');
 // Backbone.history.navigate('', {trigger: 'true'});
 
 var FinalDisplay = React.createClass({
+  mixins: [ParseReact.Mixin], // Enable query subscriptions
   handleLogOut: function(e){
     e.preventDefault();
     Parse.User.logOut().then(() => {
       var currentUser = Parse.User.current();  // this will now be null
     });
   },
+  observe: function() {
+    // Subscribe to all Recipe objects, ordered by creation date
+    // The results will be available at this.data.recipes
+
+
+    return {
+      recipes: (new Parse.Query('Ingredients')).descending('updateAt')
+    };
+
+
+
+  },
   render: function(){
+    var recipes_choices = [];
+    var recipe_id = localStorage.getItem('id')
+    
     return(
       <div>
         <div className="container-fluid">
@@ -73,6 +90,13 @@ var FinalDisplay = React.createClass({
                 </div>
               </div>
             </div>
+          </div>
+          <div className="container">
+            <div className='row'>
+              <div className="col-md-12"></div>
+
+            </div>
+
           </div>
         </div>
     );

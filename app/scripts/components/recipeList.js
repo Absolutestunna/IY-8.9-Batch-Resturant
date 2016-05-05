@@ -98,6 +98,7 @@ var RecipeListComponent = React.createClass({displayName: "RecipeListComponent",
   },
   render: function(){
     var eachItem = this.data.recipes.map(function(data){
+  
       return (
           React.createElement("div", {key: data.objectId, onClick: this.props.handleFinalPageActivate, id: data.objectId, className: "col-xs-12 col-md-3 each"}, 
             React.createElement("h2", null, data.name), React.createElement("br", null), 
